@@ -1,0 +1,19 @@
+{
+    "id": "org.growi.cloudronapp",
+    "title": "GROWI",
+    "author": "WESEEK, Inc.",
+    "tagline": "GROWI - Team collaboration software using markdown",
+    "version": "0.1.1",
+    "healthCheckPath": "/",
+    "httpPort": 3000,
+    "addons": {
+        "localstorage": {},
+        "mongodb": {},
+        "sendmail": {}
+    },
+    "manifestVersion": 2,
+    "memoryLimit": 536870912,
+    "website": "https://growi.org/en/",
+    "minBoxVersion": "7.3.2",
+    "icon": "file://logo.svg"
+}
