@@ -2,18 +2,33 @@
     "id": "org.growi.cloudronapp",
     "title": "GROWI",
     "author": "WESEEK, Inc.",
-    "tagline": "GROWI - Team collaboration software using markdown",
-    "version": "0.1.1",
-    "healthCheckPath": "/",
+    "description": "file://DESCRIPTION.md",
+    "changelog": "file://CHANGELOG.md",
+    "tagline": "Free high-performance wiki tool",
+    "version": "0.1.0",
+    "upstreamVersion": "7.0.1",
+    "minBoxVersion": "7.5.0",
+    "healthCheckPath": "/healthcheck",
+    "icon": "logo.svg",
     "httpPort": 3000,
     "addons": {
         "localstorage": {},
         "mongodb": {},
-        "sendmail": {}
+        "oidc": {
+            "loginRedirectUri": "/passport/oidc/callback"
+        },
+        "sendmail": {
+            "supportsDisplayName": true
+        }
     },
     "manifestVersion": 2,
-    "memoryLimit": 536870912,
-    "website": "https://growi.org/en/",
-    "minBoxVersion": "7.3.2",
-    "icon": "file://logo.svg"
+    "website": "https://growi.org",
+    "contactEmail": "info@weseek.co.jp",
+    "optionalSso": true,
+    "tags": [
+        "wiki",
+        "markdown"
+    ],
+    "documentationUrl": "https://docs.cloudron.io/apps/growi/",
+    "memoryLimit": 1073741824
 }
