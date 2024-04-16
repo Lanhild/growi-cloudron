@@ -29,4 +29,5 @@ cloudron install
 # Known Issues
 
 - [ ] File uploading and plugin installation issue | See [#2](/../../issues/2)
+- [ ] Embed elasticsearch in the package to allow searching for pages
 - [ ] Inject SMTP variables | See upstream [Discussion #8729](https://github.com/weseek/growi/discussions/8729)
