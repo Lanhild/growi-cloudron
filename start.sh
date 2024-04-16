@@ -2,37 +2,34 @@
 set -eu
 
 echo "=> Creating directories"
-mkdir -p /app/data/ /run/growi /run/yarn /run/cache/
+mkdir -p /run/growi/nextcache
 
 if [[ ! -f /app/data/.password_seed ]]; then
     echo "==> Create password seed"
     openssl rand -base64 32 > /app/data/.password_seed
 fi
+export PASSWORD_SEED=$(cat /app/data/.password_seed)
 
-if [[ ! -f /app/data/env ]]; then
-    cat > /app/data/env << EOF
+if [[ ! -f /app/data/env.sh ]]; then
+    cat > /app/data/env.sh << EOF
 # Add custom environment variables in this file
 
-APP_SITE_URL="https://${CLOUDRON_APP_DOMAIN}"
-FILE_UPLOAD="local"
 EOF
 fi
 
-export MONGO_URI="${CLOUDRON_MONGODB_URL}"
-export PASSWORD_SEED="$(cat /app/data/.password_seed)"
+# environment variables that cannot be overriden
+export APP_SITE_URL="$CLOUDRON_APP_ORIGIN"
+export FILE_UPLOAD="mongodb"
+export MONGO_URI="$CLOUDRON_MONGODB_URL"
+export PASSWORD_SEED="$PASSWORD_SEED"
 
-echo "=> Merge cloudron and custom configs"
-cat /app/data/env > /run/growi/.env
-cat >> /run/growi/.env << EOF
-APP_SITE_URL="https://${CLOUDRON_APP_DOMAIN}"
-PASSWORD_SEED="${PASSWORD_SEED}"
-MONGO_URI="${CLOUDRON_MONGODB_URL}"
-FILE_UPLOAD="local"
-EOF
+source /app/data/env.sh
 
-echo "=> Copying web app to writable location /run/growi"
-cp -R /app/code/growi/out/full/* /run/growi/
+echo "==> Database migration"
+cd /app/code/apps/app && yarn migrate
+
+echo "==> Changing ownership"
+chown -R cloudron:cloudron /app/data /run/growi
 
 echo "==> Starting GROWI"
-cd /run/growi
-exec yarn start --no-daemon
+cd /app/code/apps/app && exec gosu cloudron:cloudron yarn server

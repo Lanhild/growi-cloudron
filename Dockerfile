@@ -1,21 +1,24 @@
-FROM cloudron/base:4.2.0@sha256:46da2fffb36353ef714f97ae8e962bd2c212ca091108d768ba473078319a47f4
+# ARG needs to be defined prior the first FROM statement if used in any FROM statement
+ARG VERSION=7.0.1
 
-RUN mkdir -p /app/code/growi
-WORKDIR /app/code/growi
+FROM cloudron/base:4.2.0@sha256:46da2fffb36353ef714f97ae8e962bd2c212ca091108d768ba473078319a47f4 AS base
 
-ENV NODE_ENV=production
+FROM weseek/growi:${VERSION} AS growi
 
-ARG VERSION=6.2.6
+FROM base AS runner
 
-RUN wget https://github.com/weseek/growi/archive/refs/tags/v${VERSION}.tar.gz -O - | \
-    tar -xz --strip-components 1 -C /app/code/growi
+ENV NODE_ENV production
+WORKDIR /app/code
 
-RUN yarn --ignore-engines add turbo node-gyp -W && \
-    yarn --ignore-engines turbo prune --scope=@growi/app --docker && \
-    yarn --ignore-engines install && \
-    yarn --ignore-engines run app:build && \
-    rm -rf node_modules/.cache .yarn/cache apps/app/.next/cache
+COPY --from=growi ./opt/growi ./
+
+# Remove the image prepackaged yarn
+RUN rm -rf /app/code/apps/app/yarn-v1.22.19
+
+RUN ln -s /run/growi/nextcache /app/code/apps/app/.next/cache
 
 COPY start.sh /app/pkg/
+
+RUN chmod +x /app/pkg/start.sh
 
 CMD ["/app/pkg/start.sh"]
