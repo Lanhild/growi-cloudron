@@ -8,7 +8,7 @@
     "version": "0.1.6",
     "upstreamVersion": "7.0.1",
     "minBoxVersion": "7.5.0",
-    "healthCheckPath": "/healthcheck",
+    "healthCheckPath": "/_api/v3/healthcheck",
     "icon": "logo.svg",
     "httpPort": 3000,
     "addons": {
