@@ -5,7 +5,7 @@
     "description": "file://DESCRIPTION.md",
     "changelog": "file://CHANGELOG.md",
     "tagline": "Free high-performance wiki tool",
-    "version": "0.1.0",
+    "version": "0.1.6",
     "upstreamVersion": "7.0.1",
     "minBoxVersion": "7.5.0",
     "healthCheckPath": "/healthcheck",

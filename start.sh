@@ -26,10 +26,10 @@ export PASSWORD_SEED="$PASSWORD_SEED"
 source /app/data/env.sh
 
 echo "==> Database migration"
-cd /app/code/app && yarn migrate
+cd /app/code/apps/app && yarn migrate
 
 echo "==> Changing ownership"
 chown -R cloudron:cloudron /app/data /run/growi
 
 echo "==> Starting GROWI"
-exec /usr/bin/supervisord --configuration /etc/supervisor/supervisord.conf --nodaemon -i GROWI
+cd /app/code/apps/app && exec gosu cloudron:cloudron yarn server

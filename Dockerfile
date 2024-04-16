@@ -10,12 +10,12 @@ FROM base AS runner
 ENV NODE_ENV production
 WORKDIR /app/code
 
-COPY --from=growi ./app ./opt/growi/apps/app/
+COPY --from=growi ./opt/growi ./
 
-COPY supervisor/* /etc/supervisor/conf.d/
-RUN ln -sf /run/growi/supervisord.log /var/log/supervisor/supervisord.log
+# Remove the image prepackaged yarn
+RUN rm -rf /app/code/apps/app/yarn-v1.22.19
 
-RUN ln -s /run/growi/nextcache /app/code/app/.next/cache
+RUN ln -s /run/growi/nextcache /app/code/apps/app/.next/cache
 
 COPY start.sh /app/pkg/
 
