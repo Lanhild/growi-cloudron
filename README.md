@@ -1,9 +1,32 @@
-# growi-cloudron
-// Cloudron GROWI application
+# GROWI Cloudron App
 
-# Issues
+This repository contains the Cloudron app package source for [GROWI](https://github.com/weseek/growi)
 
-- [ ] `Apr 16 10:16:44 Error: EROFS: read-only file system, open '/app/code/apps/app/tmp/uploads/ead1e9b3604c3b4c97afff1d01e95973'`
-- [ ] Add OAuth
-- [ ] Add SMTP
-- [ ] File storage
+## Installation
+
+Install using the [Cloudron command line tooling](https://cloudron.io/references/cli.html)
+
+```
+cloudron install --image registry.tld/image:0.1.0
+```
+
+## Building
+
+The app package can be built using the [Cloudron command line tooling](https://cloudron.io/references/cli.html).
+
+```
+cd open-webui-cloudron
+
+cloudron build
+cloudron install
+```
+
+## Update checklist
+
+* [ ] Upgrade `version` in `CloudronManifest.json`
+* [ ] Upgrade `VERSION` argument in `Dockerfile`
+
+# Known Issues
+
+- [ ] File uploading and plugin installation issue | See #1
+- [ ] Inject SMTP variables | See upstream [Discussion #8729](https://github.com/weseek/growi/discussions/8729)
